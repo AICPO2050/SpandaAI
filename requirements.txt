@@ -1,0 +1,5 @@
+streamlit
+anthropic
+pinecone
+python-dotenv
+requests
