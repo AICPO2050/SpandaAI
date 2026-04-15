@@ -1,0 +1,108 @@
+EWB ARCHITECTURE KNOWLEDGE BASE
+East West Bank - Digital Banking System
+=======================================
+
+OVERVIEW
+--------
+East West Bank (EWB) is a US-Asia cross-border digital bank.
+Frontend: BusinessExpress (online banking portal)
+Mobile: EWB Mobile Banking App
+Middleware: MuleSoft (all API calls go through MuleSoft)
+Core Banking: FIS
+Identity/Auth: Okta (JWT tokens)
+Cloud: Azure
+Frontend Framework: PowerApps / React
+
+AUTHENTICATION
+--------------
+- All sessions managed via Okta
+- JWT tokens issued on login
+- Token passed in every API header
+- Session timeout handled by middleware
+- MuleSoft validates token before any API call
+
+MULESOFT MIDDLEWARE LAYER
+-------------------------
+- All UI calls go through MuleSoft Process APIs
+- MuleSoft connects Frontend to FIS Core Banking
+- MuleSoft connects Frontend to ACH Engine
+- MuleSoft connects Frontend to FX Engine
+- MuleSoft connects Frontend to Compliance (OFAC)CORE BANKING APIS (via MuleSoft)
+---------------------------------
+- Account Summary: returns account number, balance, account type
+- Transaction History: date, amount, description, status
+- Account Details: owner info, routing number, account status
+- Wire Transfer: domestic and international SWIFT transfers
+- ACH Transfer: NACHA compliant, batch processing
+- Card Management: debit card controls, limits, freeze/unfreeze
+
+ACH SYSTEM
+----------
+- Compliant with NACHA rules
+- Supports: PPD, CXX, WEB entry codes
+- Batch processing via FIS
+- ACH Origination for business customers
+- Prenote validation before first transaction
+- Return handling: R01-R33 return codes
+- BE 2.0 handles ACH business logic
+
+FX ENGINE
+---------
+- Supports: USD, CNY, HKD, TWD, SGD
+- Forward FX requires treasury sign-off
+- Real-time rate feed
+- SWIFT GPI for international tracking
+- FX margin applied at MuleSoft layer
+- Cross-border remittance for US-Asia corridors
+CORE BANKING APIS (via MuleSoft)
+---------------------------------
+- Account Summary: returns account number, balance, account type
+- Transaction History: date, amount, description, status
+- Account Details: owner info, routing number, account status
+- Wire Transfer: domestic and international SWIFT transfers
+- ACH Transfer: NACHA compliant, batch processing
+- Card Management: debit card controls, limits, freeze/unfreeze
+
+ACH SYSTEM
+----------
+- Compliant with NACHA rules
+- Supports: PPD, CXX, WEB entry codes
+- Batch processing via FIS
+- ACH Origination for business customers
+- Prenote validation before first transaction
+- Return handling: R01-R33 return codes
+- BE 2.0 handles ACH business logic
+
+FX ENGINE
+---------
+- Supports: USD, CNY, HKD, TWD, SGD
+- Forward FX requires treasury sign-off
+- Real-time rate feed
+- SWIFT GPI for international tracking
+- FX margin applied at MuleSoft layer
+- Cross-border remittance for US-Asia corridors
+ONBOARDING SYSTEM
+-----------------
+- Business customer onboarding via BusinessExpress
+- Steps: Account creation, KYC, Document upload, OFAC check, Approval
+- KYC handled by third party integrated via MuleSoft
+- OFAC screening on every new customer
+- Onboarding status tracked in FIS
+
+5-AGENT MIDDLEWARE ARCHITECTURE
+--------------------------------
+Agent 1 - Digital Platform Agent: handles UI requests, routes to correct agent
+Agent 2 - FX & Treasury Agent: handles all FX, SWIFT, cross-border
+Agent 3 - ACH & Payments Agent: handles ACH origination, returns, batch
+Agent 4 - RM Tools Agent: handles relationship manager dashboard, reports
+Agent 5 - Compliance & Risk Agent: OFAC, NACHA compliance, audit trail
+
+PM SPANDA AI RULES
+----------------
+- Always reference MuleSoft as the middleware layer
+- ACH features must mention NACHA compliance
+- FX features must mention treasury sign-off for forward FX
+- All data stays within Azure tenant (PII rules)
+- Authentication always via Okta + JWT
+- Core banking changes always go through FIS
+- New features must specify which agent handles the request
